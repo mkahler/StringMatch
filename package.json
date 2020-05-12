@@ -1,0 +1,18 @@
+{
+  "name": "stringmatch",
+  "version": "1.0.0",
+  "description": "StringMatch is a simple programming exercise to test out ways to find strings in a given block of characters. There are exact matches and fuzzy matches.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matt Kahler",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mkahler/StringMatch/issues"
+  },
+  "homepage": "https://github.com/mkahler/StringMatch#readme",
+  "dependencies": {
+    "yargs": "^15.3.1"
+  }
+}

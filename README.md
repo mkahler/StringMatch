@@ -2,7 +2,38 @@
 
 StringMatch is a simple programming exercise to test out ways to find strings in a given block of characters. There are exact matches and fuzzy matches.
 
-## Criteria
+## Implementation
+
+The solution is a NodeJS console application that needs to be provided with the a name that contains parameters and data for the exercise.
+
+#### Preparing the source code to run
+
+Navigate to the source code location.
+```
+$ cd StringMatch
+```
+
+Restore the dependencies.
+```
+$ npm install 
+```
+
+#### Run Application (Command line usage):
+Available command line parameters are:<br />
+-f, --file to specify a file name as input<br />
+
+**Example:**
+
+```
+node app.js -f inputFile.txt
+```
+
+#### Future Enhancements
+* Add unit test converage
+* Convert code to use TypeScript
+* Use Trie structure for the search words
+
+## Scenario
 
 #### Given a text file with rows in the following format:
 
@@ -62,29 +93,5 @@ If you ran your program on the sample input file, this is the output expected:
 ```
 Part 2:
 -------
-Train: traon, trait, brain
+Train: brain, trait, traon
 ```
-
-## Implementation
-
-The solution is a console application that can either be provided with the file name, or use command redirect operator to send the data to the application.
-
-#### Command line usage:
-Available command line parameters are:<br />
-/f  to specify a file name as input<br />
-/s  to specify  a file being directed as input<br />
-
-**Example:**
-
-```
-StringMatch.exe /f inputFile.txt
-```
-
-Or
-
-```
-StringMatch.exe /s < inputFile.txt
-```
-
-## Future Enhancements
-* Use Trie structure for the search words
