@@ -37,7 +37,7 @@ const makePurdy = ([exactMatchInfo, fuzzyMatchInfo]) => {
 
 parser.parseFileAsync(fileName)
     .then(extractMatchesAsync)
-    .then(makePurdy, (rejectedReason) => console.log(rejectedReason))
+    .then(makePurdy)
     .catch((error) => {
         console.log('Oops, something didn\'t happen as expected during processing.');
         console.log(error);

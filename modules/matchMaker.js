@@ -176,9 +176,9 @@ class MatchMaker {
                 // extract right-to-left diagnal (and reverse)
                 extractRightToLeftStringsAsync(this.#parsedFileData.data, this.#parsedFileData.width, this.#parsedFileData.height)
             ]);
-            
+
             this.#searchList.push(...vertical, ...horizontal, ...leftToRight, ...rightToLeft);
-            
+
             return true;
         } catch (error) {
             console.log('There was a problem while initializing the search conditions');
@@ -189,37 +189,46 @@ class MatchMaker {
     }
 
     findExactMachesAsync() {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             setTimeout(() => {
-                const results = [];
-                this.#parsedFileData.searchTerms.exactMatch.forEach((term) => {
-                    const termResult = { key: term, numberOfMatches: 0 };
-                    results.push(termResult);
-                    this.#searchList.forEach((item) => {
-                        if (item.includes(term.toLowerCase())) {
-                            termResult.numberOfMatches++;
-                        }
+                try {
+                    const results = [];
+                    this.#parsedFileData.searchTerms.exactMatch.forEach((term) => {
+                        const termResult = { key: term, numberOfMatches: 0 };
+                        results.push(termResult);
+                        this.#searchList.forEach((item) => {
+                            if (item.includes(term.toLowerCase())) {
+                                termResult.numberOfMatches++;
+                            }
+                        });
                     });
-                });
-                resolve(results);
+                    resolve(results);
+                } catch (error) {
+                    reject(error);
+                }
+
             }, 0);
         });
     }
 
     findFuzzyMatchesAsync() {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             setTimeout(() => {
-                const results = [];
-                this.#parsedFileData.searchTerms.fuzzyMatch.forEach((term) => {
-                    const termResult = { key: term, found: [] };
-                    results.push(termResult);
-                    const fuzzyExpression = createFuzzySearchExpression(term);
+                try {
+                    const results = [];
+                    this.#parsedFileData.searchTerms.fuzzyMatch.forEach((term) => {
+                        const termResult = { key: term, found: [] };
+                        results.push(termResult);
+                        const fuzzyExpression = createFuzzySearchExpression(term);
 
-                    this.#searchList.forEach((item) => {
-                        termResult.found.push(...item.matchAll(fuzzyExpression));
+                        this.#searchList.forEach((item) => {
+                            termResult.found.push(...item.matchAll(fuzzyExpression));
+                        });
                     });
-                });
-                resolve(results);
+                    resolve(results);
+                } catch (error) {
+                    reject(error);
+                }
             }, 0);
         });
     }
