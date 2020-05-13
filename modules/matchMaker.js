@@ -161,27 +161,31 @@ class MatchMaker {
 
     #searchList
 
-    initAsync() {
-        return Promise.all([
-            // extract all vertical from the data (and reverse)
-            extractVerticalStringsAsync(this.#parsedFileData.data, this.#parsedFileData.height),
+    async init() {
+        try {
+            const [vertical, horizontal, leftToRight, rightToLeft] = await Promise.all([
+                // extract all vertical from the data (and reverse)
+                extractVerticalStringsAsync(this.#parsedFileData.data, this.#parsedFileData.height),
 
-            // extract all horizontal from the data (and reverse)
-            extractHorizontalStringsAsync(this.#parsedFileData.data, this.#parsedFileData.width, this.#parsedFileData.height),
+                // extract all horizontal from the data (and reverse)
+                extractHorizontalStringsAsync(this.#parsedFileData.data, this.#parsedFileData.width, this.#parsedFileData.height),
 
-            // extract left-to-right diagnal (and reverse)
-            extractLeftToRightStringsAsync(this.#parsedFileData.data, this.#parsedFileData.width, this.#parsedFileData.height),
+                // extract left-to-right diagnal (and reverse)
+                extractLeftToRightStringsAsync(this.#parsedFileData.data, this.#parsedFileData.width, this.#parsedFileData.height),
 
-            // extract right-to-left diagnal (and reverse)
-            extractRightToLeftStringsAsync(this.#parsedFileData.data, this.#parsedFileData.width, this.#parsedFileData.height)
-        ])
-            .then(([vertical, horizontal, leftToRight, rightToLeft]) => {
-                this.#searchList.push(...vertical, ...horizontal, ...leftToRight, ...rightToLeft);
-            })
-            .catch((error) => {
-                console.log('There was a problem while initializing the search conditions');
-                console.log(error);
-            });
+                // extract right-to-left diagnal (and reverse)
+                extractRightToLeftStringsAsync(this.#parsedFileData.data, this.#parsedFileData.width, this.#parsedFileData.height)
+            ]);
+            
+            this.#searchList.push(...vertical, ...horizontal, ...leftToRight, ...rightToLeft);
+            
+            return true;
+        } catch (error) {
+            console.log('There was a problem while initializing the search conditions');
+            console.log(error);
+        }
+
+        return false;
     }
 
     findExactMachesAsync() {
