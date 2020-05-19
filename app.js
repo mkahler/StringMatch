@@ -1,7 +1,6 @@
 const yargs = require('yargs');
 const parser = require('./modules/parser.js');
-const MatchMaker = require('./modules/matchMaker.js');
-const matchPrinter = require('./modules/matchPrinter.js');
+const { extractMatchesAsync, makePurdy } = require('./modules/appRunner.js');
 
 yargs.option('file', {
   alias: 'f',
@@ -11,24 +10,6 @@ yargs.option('file', {
 });
 
 const fileName = yargs.argv.file;
-
-const extractMatchesAsync = async (parsedFileData) => {
-  const matchMaker = new MatchMaker(parsedFileData);
-  const isInitialized = await matchMaker.init();
-
-  if (isInitialized) {
-    console.log();
-    console.log('Finding matches...');
-    return Promise.all([matchMaker.findExactMachesAsync(), matchMaker.findFuzzyMatchesAsync()]);
-  } else {
-    return Promise.reject('Init failed.');
-  }
-};
-
-const makePurdy = ([exactMatchInfo, fuzzyMatchInfo]) => {
-  matchPrinter.printExactMatches(exactMatchInfo);
-  matchPrinter.printFuzzyMatches(fuzzyMatchInfo);
-};
 
 parser
   .parseFileAsync(fileName)

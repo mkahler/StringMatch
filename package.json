@@ -4,6 +4,7 @@
   "description": "StringMatch is a simple programming exercise to test out ways to find strings in a given block of characters. There are exact matches and fuzzy matches.",
   "main": "app.js",
   "scripts": {
+    "integration": "node app.js -f test.txt",
     "test": "jest"
   },
   "author": "Matt Kahler",
