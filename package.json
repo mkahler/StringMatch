@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "integration": "node app.js -f test.txt",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "author": "Matt Kahler",
   "license": "MIT",
@@ -17,6 +17,7 @@
     "yargs": "^15.3.1"
   },
   "devDependencies": {
+    "@types/jest": "^25.2.3",
     "jest": "^26.0.1",
     "prettier": "2.0.5"
   },

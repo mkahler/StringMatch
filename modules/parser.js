@@ -1,21 +1,10 @@
 const { once } = require('events');
 const fs = require('fs');
 const readLine = require('readline');
-
-const generateEmptyResult = () => {
-  return {
-    width: 0,
-    height: 0,
-    data: [],
-    searchTerms: {
-      exactMatch: [],
-      fuzzyMatch: []
-    }
-  };
-};
+const { ParsedData } = require('./parsedData.js');
 
 const parseFileAsync = async (file) => {
-  const results = generateEmptyResult();
+  const results = new ParsedData();
 
   try {
     console.log('Reading input data...');

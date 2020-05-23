@@ -29,7 +29,7 @@ const extractHorizontalStringsAsync = (data, width, height) => {
   });
 };
 
-const extractLeftToRightStringsAsync = (data, width, height) => {
+const extractDiagonalLeftToRightStringsAsync = (data, width, height) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       const temp = [];
@@ -77,7 +77,7 @@ const extractLeftToRightStringsAsync = (data, width, height) => {
   });
 };
 
-const extractRightToLeftStringsAsync = (data, width, height) => {
+const extractDiagonalRightToLeftStringsAsync = (data, width, height) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       const temp = [];
@@ -145,7 +145,17 @@ const createFuzzySearchExpression = (source = '') => {
 };
 
 class MatchMaker {
-  constructor(parsedFileData) {
+  constructor(
+    parsedFileData = {
+      width: 0,
+      height: 0,
+      data: [],
+      searchTerms: {
+        exactMatch: [],
+        fuzzyMatch: []
+      }
+    }
+  ) {
     this.#parsedFileData = parsedFileData;
     this.#searchList = [];
   }
@@ -164,10 +174,10 @@ class MatchMaker {
         extractHorizontalStringsAsync(this.#parsedFileData.data, this.#parsedFileData.width, this.#parsedFileData.height),
 
         // extract left-to-right diagnal (and reverse)
-        extractLeftToRightStringsAsync(this.#parsedFileData.data, this.#parsedFileData.width, this.#parsedFileData.height),
+        extractDiagonalLeftToRightStringsAsync(this.#parsedFileData.data, this.#parsedFileData.width, this.#parsedFileData.height),
 
         // extract right-to-left diagnal (and reverse)
-        extractRightToLeftStringsAsync(this.#parsedFileData.data, this.#parsedFileData.width, this.#parsedFileData.height)
+        extractDiagonalRightToLeftStringsAsync(this.#parsedFileData.data, this.#parsedFileData.width, this.#parsedFileData.height)
       ]);
 
       this.#searchList.push(...vertical, ...horizontal, ...leftToRight, ...rightToLeft);
@@ -214,7 +224,10 @@ class MatchMaker {
             const fuzzyExpression = createFuzzySearchExpression(term);
 
             this.#searchList.forEach((item) => {
-              termResult.found.push(...item.matchAll(fuzzyExpression));
+              const found = [...item.matchAll(fuzzyExpression)];
+              if (found.length > 0) {
+                termResult.found.push(...found.flat());
+              }
             });
           });
           resolve(results);
