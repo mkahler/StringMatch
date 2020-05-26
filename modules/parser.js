@@ -3,11 +3,9 @@ const fs = require('fs');
 const readLine = require('readline');
 const { ParsedData } = require('./parsedData.js');
 
-const parseFileAsync = async (file) => {
-  const results = new ParsedData();
-
-  try {
-    console.log('Reading input data...');
+const parseFileAsync = (fileName) => {
+  return new Promise(async (resolve, reject) => {
+    const results = new ParsedData();
 
     let isFirstLineRead = false;
     let dataRowsConsumed = 0;
@@ -16,11 +14,18 @@ const parseFileAsync = async (file) => {
     let fuzzyMatchRowConsumed = false;
 
     // open file and get out the paramters to process the file.
-    const readStream = fs.createReadStream(file);
+    const readStream = fs.createReadStream(fileName);
+    readStream.on('error', (error) => {
+      console.log(`Failed to process file: ${fileName}`);
+      reject(error);
+    });
+
     const rli = readLine.createInterface({
       input: readStream,
       crlfDelay: Infinity
     });
+
+    console.log('Reading input data...');
 
     rli.on('line', (line) => {
       if (!isFirstLineRead) {
@@ -45,11 +50,11 @@ const parseFileAsync = async (file) => {
     });
 
     await once(rli, 'close');
+
     console.log('Done parsing file.');
-    return results;
-  } catch (e) {
-    console.log(`Failed to process file: ${file} \n ${e}`);
-  }
+
+    resolve(results);
+  });
 };
 
 module.exports = { parseFileAsync };

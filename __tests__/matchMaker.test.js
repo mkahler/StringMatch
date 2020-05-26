@@ -197,6 +197,3 @@ describe('MatchMaker tests', () => {
     });
   });
 });
-
-// TODO: add edge case tests for when the height/width are less than the parsed data contains
-// TODO: add edge case tests for when the height/width are greater than the parsed data contains

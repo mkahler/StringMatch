@@ -33,7 +33,6 @@ node app.js -f inputFile.txt
 
 #### Future Enhancements
 
-- Add unit test converage
 - Convert code to use TypeScript
 - Use Trie structure for the search words
 

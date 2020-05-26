@@ -1,7 +1,7 @@
 class SearchTerms {
-  constructor() {
-    this.exactMatch = [];
-    this.fuzzyMatch = [];
+  constructor(exactMatches = [], fuzzyMatches = []) {
+    this.exactMatch = exactMatches;
+    this.fuzzyMatch = fuzzyMatches;
   }
 }
 
